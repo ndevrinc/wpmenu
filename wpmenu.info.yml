@@ -1,0 +1,8 @@
+name: WordPress Menu
+type: module
+description: 'Clones the WordPress Admin Menu for your Drupal site.'
+core: 8.x
+package: Admin
+# version: VERSION
+dependencies:
+  - user

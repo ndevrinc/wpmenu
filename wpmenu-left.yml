@@ -1,0 +1,65 @@
+menu:
+
+- separator: false
+  url: admin
+  text: Dashboard
+  icon: dashboard
+  children:
+  - url: /admin/index
+    text: Index
+  - url: update.php
+    text: Update
+- separator: true
+  url: admin/content
+  text: Content
+  icon: admin-page
+  children:
+  - url: admin/content/add
+    text: Add
+- separator: false
+  url: admin/structure
+  text: Structure
+  icon: admin-structure
+  children:
+  - url: admin/structure/block
+    text: Blocks
+  - url: admin/structure/content
+    text: Content Types
+  - url: admin/structure/taxonomy
+    text: Taxonomy
+  - url: admin/structure/views
+    text: Views
+- separator: false
+  url: admin/appearance
+  text: Appearance
+  icon: admin-appearance
+  children:
+  - url: admin/appearance/settings
+    text: Settings
+- separator: false
+  url: admin/modules
+  text: Extend
+  icon: admin-plugins
+  children:
+- separator: false
+  url: admin/config
+  text: Configuration
+  icon: admin-settings
+  children:
+  - url: admin/config/development/performance
+    text: Performance
+- separator: false
+  url: admin/people
+  text: People
+  icon: admin-users
+  children:
+- separator: false
+  url: admin/reports
+  text: Reports
+  icon: admin-reports
+  children:
+- separator: false
+  url: admin/help
+  text: Help
+  icon: admin-help
+  children:

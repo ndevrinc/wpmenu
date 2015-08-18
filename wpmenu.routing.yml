@@ -1,0 +1,8 @@
+wpmenu.subtrees:
+  path: '/wpmenu/subtrees/{hash}'
+  defaults:
+    _controller: '\Drupal\wpmenu\Controller\WpmenuController::subtreesAjax'
+  options:
+    _theme: ajax_base_page
+  requirements:
+    _custom_access: '\Drupal\wpmenu\Controller\WpmenuController::checkSubTreeAccess'

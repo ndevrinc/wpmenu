@@ -1,0 +1,14 @@
+services:
+  cache.wpmenu:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin }
+    factory: cache_factory:get
+    arguments: [wpmenu]
+  wpmenu.page_cache_request_policy.allow_wpmenu_path:
+    class: Drupal\wpmenu\PageCache\AllowWpmenuPath
+    tags:
+      - { name: page_cache_request_policy }
+  wpmenu.menu_tree:
+    class: Drupal\wpmenu\Menu\WpmenuMenuLinkTree
+    arguments: ['@menu.tree_storage', '@plugin.manager.menu.link', '@router.route_provider', '@menu.active_trail', '@controller_resolver', '@cache.menu', '@current_route_match']
