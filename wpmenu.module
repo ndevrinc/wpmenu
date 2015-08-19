@@ -110,9 +110,15 @@ function wpmenu_page_bottom(array &$page_bottom) {
  *     the tray. Properties used: #children, #attributes and #bar.
  */
 function template_preprocess_wpmenu_top(&$variables) {
-    print_r(get_defined_vars());exit();
+    global $base_path;
     $current_path = \Drupal::service('path.current')->getPath();
+    $types = \Drupal\node\Entity\NodeType::loadMultiple();
+    $content_types = array_keys($types);
+
+    $variables['base_path'] = $base_path;
+    $variables['module_path'] = drupal_get_path('module', 'wpmenu');
     $variables['current_path'] = $current_path;
+    $variables['content_types'] = $content_types;
     $variables['username'] = $variables['user']->getAccount()->name;
     $variables['uid'] = $variables['user']->getAccount()->id();
     $variables['gravatar'] = 'https://www.gravatar.com/avatar/' . strtolower(trim(md5($variables['user']->getEmail())));

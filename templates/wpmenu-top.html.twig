@@ -26,19 +26,19 @@
     <div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Toolbar" tabindex="0">
         <ul id="wp-admin-bar-root-default" class="ab-top-menu">
             <li id="wp-admin-bar-menu-toggle"><a class="ab-item"  href="#"><span class="ab-icon"></span><span class="screen-reader-text">Menu</span></a>		</li>
-            <li id="wp-admin-bar-wp-logo" class="menupop"><a class="ab-item"  aria-haspopup="true" href="https://ndevr.io/"><img src="{{ current_path }}/img/ndevr.svg" height="32" /><span class="screen-reader-text">About Ndevr</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-wp-logo-default" class="ab-submenu">
+            <li id="wp-admin-bar-wp-logo" class="menupop"><a class="ab-item"  aria-haspopup="true" href="https://ndevr.io/"><img src="{{ base_path ~ module_path }}/img/ndevr.svg" height="32" /><span class="screen-reader-text">About Ndevr</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-wp-logo-default" class="ab-submenu">
                         <li id="wp-admin-bar-about"><a class="ab-item"  href="https://ndevr.io/">Ndevr</a>		</li></ul><ul id="wp-admin-bar-wp-logo-external" class="ab-sub-secondary ab-submenu">
                         <li id="wp-admin-bar-wporg"><a class="ab-item"  href="https://ndevr.io/what-we-do/">About Ndevr</a>		</li>
                         <li id="wp-admin-bar-documentation"><a class="ab-item"  href="https://github.com/ndevrinc/wpmenu">Documentation</a>		</li>
                         <li id="wp-admin-bar-feedback"><a class="ab-item"  href="https://github.com/ndevrinc/wpmenu">Feedback</a>		</li></ul></div>		</li>
             <li id="wp-admin-bar-site-name" class="menupop"><a class="ab-item"  aria-haspopup="true" href="{{ base_path }}">{{ site_name }}</a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-site-name-default" class="ab-submenu">
                         <li id="wp-admin-bar-view-site"><a class="ab-item"  href="{{ base_path }}">Visit Site</a>		</li></ul></div>		</li>
-            <li id="wp-admin-bar-comments"><a class="ab-item"  href="https://ndevr.io/wp-admin/edit-comments.php" title="0 comments awaiting moderation"><span class="ab-icon"></span><span id="ab-awaiting-mod" class="ab-label awaiting-mod pending-count count-0">0</span></a>		</li>
-            <li id="wp-admin-bar-new-content" class="menupop"><a class="ab-item"  aria-haspopup="true" href="https://ndevr.io/wp-admin/post-new.php"><span class="ab-icon"></span><span class="ab-label">New</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-new-content-default" class="ab-submenu">
-                        <li id="wp-admin-bar-new-post"><a class="ab-item"  href="https://ndevr.io/wp-admin/post-new.php">Post</a>		</li>
-                        <li id="wp-admin-bar-new-media"><a class="ab-item"  href="https://ndevr.io/wp-admin/media-new.php">Media</a>		</li>
-                        <li id="wp-admin-bar-new-page"><a class="ab-item"  href="https://ndevr.io/wp-admin/post-new.php?post_type=page">Page</a>		</li>
-                        <li id="wp-admin-bar-new-user"><a class="ab-item"  href="https://ndevr.io/wp-admin/user-new.php">User</a>		</li></ul></div>		</li>
+            <li id="wp-admin-bar-new-content" class="menupop"><a class="ab-item"  aria-haspopup="true" href="{{ url_from_path('admin/content/add') }}"><span class="ab-icon"></span><span class="ab-label">New</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-new-content-default" class="ab-submenu">
+{% for content_type in content_types %}
+    <li><a class="ab-item" href="{{ url_from_path('node/add/' ~ content_type) }}">{{ content_type }}</a></li>
+{% endfor %}
+    <li id="wp-admin-bar-new-user"><a class="ab-item"  href="{{ url_from_path('admin/people/create') }}">user</a>		</li>
+                    </ul></div>		</li>
         </ul>
         <ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">
             <li id="wp-admin-bar-my-account" class="menupop with-avatar"><a class="ab-item"  aria-haspopup="true" href="{{ url_from_path('user/' ~ uid) }}">Howdy, {{ username }}<img alt='' src='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=26&#038;d=mm&#038;r=g' srcset='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=52&amp;d=mm&amp;r=g 2x' class='avatar avatar-26 photo' height='26' width='26' /></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-user-actions" class="ab-submenu">
