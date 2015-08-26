@@ -1,16 +1,16 @@
 wpmenu:
   version: VERSION
   js:
-    wp-admin/js/common.min.js: {}
-    wp-includes/js/admin-bar.min.js: {}
-    wp-includes/js/utils.min.js: {}
+    /libraries/wordpress/wp-admin/js/common.min.js: {}
+    /libraries/wordpress/wp-includes/js/admin-bar.min.js: {}
+    /libraries/wordpress/wp-includes/js/utils.min.js: {}
   css:
     component:
-      wp-includes/css/dashicons.min.css: {}
-      wp-includes/css/admin-bar.min.css: {}
-      wp-admin/css/wp-admin.min.css: {}
-      wp-includes/css/buttons.min.css: {}
-      wp-admin/css/common.css: {}
-      wp-admin/css/forms.css: {}
-      wp-admin/css/admin-menu.css: {}
+      /libraries/wordpress/wp-includes/css/dashicons.min.css: {}
+      /libraries/wordpress/wp-includes/css/admin-bar.min.css: {}
+      /libraries/wordpress/wp-admin/css/wp-admin.min.css: {}
+      /libraries/wordpress/wp-includes/css/buttons.min.css: {}
+      /libraries/wordpress/wp-admin/css/common.css: {}
+      /libraries/wordpress/wp-admin/css/forms.css: {}
+      /libraries/wordpress/wp-admin/css/admin-menu.css: {}
       css/wpmenu.css: {}
