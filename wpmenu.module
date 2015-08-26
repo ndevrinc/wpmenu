@@ -110,9 +110,8 @@ function template_preprocess_wpmenu_top(&$variables) {
 function template_preprocess_wpmenu_left(&$variables) {
   global $base_path;
   $current_path = \Drupal::service('path.current')->getPath();
-
-  $config = Yaml::parse(file_get_contents('/var/www/drupal8/modules/wpmenu/wpmenu-left.yml'));
-  $current_path = \Drupal::service('path.current')->getPath();
+  $module_path = drupal_get_path('module', 'wpmenu');
+  $config = Yaml::parse(file_get_contents($module_path . '/wpmenu-left.yml'));
 
   $variables['base_path'] = $base_path;
   $variables['current_path'] = $current_path;
