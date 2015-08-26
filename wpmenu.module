@@ -11,25 +11,6 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Implements hook_help().
- */
-function wpmenu_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    case 'help.page.wpmenu':
-      $output = '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('The WordPress Menu module provides a menu for site administrators, which displays tabs and trays provided by the Toolbar module itself and other modules. For more information, see the <a href="!wpmenu_docs">online documentation for the Toolbar module</a>.', array('!wpmenu_docs' => 'https://www.drupal.org/documentation/modules/toolbar')) . '</p>';
-      $output .= '<h4>' . t('Terminology') . '</h4>';
-      $output .= '<dl>';
-      $output .= '<dt>' . t('Tabs') . '</dt>';
-      $output .= '<dd>' . t('Tabs are buttons, displayed in a bar across the top of the screen. Some tabs execute an action (such as starting Edit mode), while other tabs toggle which tray is open.') . '</dd>';
-      $output .= '<dt>' . t('Trays') . '</dt>';
-      $output .= '<dd>' . t('Trays are usually lists of links, which can be hierarchical like a menu. If a tray has been toggled open, it is displayed either vertically or horizontally below the tab bar, depending on the browser width. Only one tray may be open at a time. If you click another tab, that tray will replace the tray being displayed. In wide browser widths, the user has the ability to toggle from vertical to horizontal, using a link at the bottom or right of the tray. Hierarchical menus only have open/close behavior in vertical mode; if you display a tray containing a hierarchical menu horizontally, only the top-level links will be available.') . '</dd>';
-      $output .= '</dl>';
-      return $output;
-  }
-}
-
-/**
  * Implements hook_theme().
  */
 function wpmenu_theme($existing, $type, $theme, $path) {
