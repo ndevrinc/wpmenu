@@ -44,21 +44,21 @@
                     {% set current_class = 'wp-not-current-submenu' %}
                 {% endif %}
 
-            <li class="wp-has-submenu {{ current_class }} menu-top menu-icon-{{ link.icon }} menu-top-first" id="menu-{{ link.icon }}">
-                <a href="{{  url_from_path(link.url) }}" class="wp-has-submenu {{ current_class }} menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
-                    <div class="wp-menu-arrow"><div></div></div>
-                    <div class="wp-menu-image dashicons-before dashicons-{{  link.icon }}"><br /></div>
-                    <div class="wp-menu-name">{{ link.text }}</div>
-                </a>
-                {% if link.children|length > 0 %}
-                    <ul class="wp-submenu wp-submenu-wrap">
-                        <li class="wp-submenu-head">{{ link.text }}</li>
-                    {% for sublink in link.children %}
-                        <li><a href="{{ url_from_path(sublink.url) }}">{{ sublink.text }}</a></li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
+                <li class="wp-has-submenu {{ current_class }} menu-top menu-icon-{{ link.icon }} menu-top-first" id="menu-{{ link.icon }}">
+                    <a href="{{  url_from_path(link.url) }}" class="wp-has-submenu {{ current_class }} menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
+                        <div class="wp-menu-arrow"><div></div></div>
+                        <div class="wp-menu-image dashicons-before dashicons-{{  link.icon }}"><br /></div>
+                        <div class="wp-menu-name">{{ link.text }}</div>
+                    </a>
+                    {% if link.children|length > 0 %}
+                        <ul class="wp-submenu wp-submenu-wrap">
+                            <li class="wp-submenu-head">{{ link.text }}</li>
+                            {% for sublink in link.children %}
+                                <li><a href="{{ url_from_path(sublink.url) }}">{{ sublink.text }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
             {% endfor %}
 
 

@@ -34,10 +34,10 @@
             <li id="wp-admin-bar-site-name" class="menupop"><a class="ab-item"  aria-haspopup="true" href="{{ base_path }}">{{ site_name }}</a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-site-name-default" class="ab-submenu">
                         <li id="wp-admin-bar-view-site"><a class="ab-item"  href="{{ base_path }}">Visit Site</a>		</li></ul></div>		</li>
             <li id="wp-admin-bar-new-content" class="menupop"><a class="ab-item"  aria-haspopup="true" href="{{ url_from_path('admin/content/add') }}"><span class="ab-icon"></span><span class="ab-label">New</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-new-content-default" class="ab-submenu">
-{% for content_type in content_types %}
-    <li><a class="ab-item" href="{{ url_from_path('node/add/' ~ content_type) }}">{{ content_type }}</a></li>
-{% endfor %}
-    <li id="wp-admin-bar-new-user"><a class="ab-item"  href="{{ url_from_path('admin/people/create') }}">user</a>		</li>
+                        {% for content_type in content_types %}
+                            <li><a class="ab-item" href="{{ url_from_path('node/add/' ~ content_type) }}">{{ content_type }}</a></li>
+                        {% endfor %}
+                        <li id="wp-admin-bar-new-user"><a class="ab-item"  href="{{ url_from_path('admin/people/create') }}">user</a>		</li>
                     </ul></div>		</li>
         </ul>
         <ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">

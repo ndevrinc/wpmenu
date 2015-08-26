@@ -14,8 +14,3 @@ wpmenu:
       wp-admin/css/forms.css: {}
       wp-admin/css/admin-menu.css: {}
       css/wpmenu.css: {}
- #    theme:
-#      css/wpmenu.theme.css: {}
-#      css/wpmenu.icons.theme.css: {}
-#  dependencies:
-#    - core/modernizr

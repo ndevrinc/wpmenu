@@ -5,16 +5,8 @@
  * WordPress wpmenu clone.
  */
 
-use Drupal\Core\Cache\Cache;
-use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Template\Attribute;
-use Drupal\Component\Datetime\DateTimePlus;
-use Drupal\Component\Utility\Crypt;
-use Drupal\Component\Utility\SafeMarkup;
-use Drupal\Core\Url;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,49 +14,49 @@ use Symfony\Component\Yaml\Yaml;
  * Implements hook_help().
  */
 function wpmenu_help($route_name, RouteMatchInterface $route_match) {
-    switch ($route_name) {
-        case 'help.page.wpmenu':
-            $output = '<h3>' . t('About') . '</h3>';
-            $output .= '<p>' . t('The WordPress Menu module provides a menu for site administrators, which displays tabs and trays provided by the Toolbar module itself and other modules. For more information, see the <a href="!wpmenu_docs">online documentation for the Toolbar module</a>.', array('!wpmenu_docs' => 'https://www.drupal.org/documentation/modules/toolbar')) . '</p>';
-            $output .= '<h4>' . t('Terminology') . '</h4>';
-            $output .= '<dl>';
-            $output .= '<dt>' . t('Tabs') . '</dt>';
-            $output .= '<dd>' . t('Tabs are buttons, displayed in a bar across the top of the screen. Some tabs execute an action (such as starting Edit mode), while other tabs toggle which tray is open.') . '</dd>';
-            $output .= '<dt>' . t('Trays') . '</dt>';
-            $output .= '<dd>' . t('Trays are usually lists of links, which can be hierarchical like a menu. If a tray has been toggled open, it is displayed either vertically or horizontally below the tab bar, depending on the browser width. Only one tray may be open at a time. If you click another tab, that tray will replace the tray being displayed. In wide browser widths, the user has the ability to toggle from vertical to horizontal, using a link at the bottom or right of the tray. Hierarchical menus only have open/close behavior in vertical mode; if you display a tray containing a hierarchical menu horizontally, only the top-level links will be available.') . '</dd>';
-            $output .= '</dl>';
-            return $output;
-    }
+  switch ($route_name) {
+    case 'help.page.wpmenu':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The WordPress Menu module provides a menu for site administrators, which displays tabs and trays provided by the Toolbar module itself and other modules. For more information, see the <a href="!wpmenu_docs">online documentation for the Toolbar module</a>.', array('!wpmenu_docs' => 'https://www.drupal.org/documentation/modules/toolbar')) . '</p>';
+      $output .= '<h4>' . t('Terminology') . '</h4>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Tabs') . '</dt>';
+      $output .= '<dd>' . t('Tabs are buttons, displayed in a bar across the top of the screen. Some tabs execute an action (such as starting Edit mode), while other tabs toggle which tray is open.') . '</dd>';
+      $output .= '<dt>' . t('Trays') . '</dt>';
+      $output .= '<dd>' . t('Trays are usually lists of links, which can be hierarchical like a menu. If a tray has been toggled open, it is displayed either vertically or horizontally below the tab bar, depending on the browser width. Only one tray may be open at a time. If you click another tab, that tray will replace the tray being displayed. In wide browser widths, the user has the ability to toggle from vertical to horizontal, using a link at the bottom or right of the tray. Hierarchical menus only have open/close behavior in vertical mode; if you display a tray containing a hierarchical menu horizontally, only the top-level links will be available.') . '</dd>';
+      $output .= '</dl>';
+      return $output;
+  }
 }
 
 /**
  * Implements hook_theme().
  */
 function wpmenu_theme($existing, $type, $theme, $path) {
-    $items['wpmenu_top'] = array(
-        'render element' => 'element',
-    );
-    $items['menu__wpmenu_top'] = array(
-        'base hook' => 'menu',
-        'variables' => array('items' => array(), 'attributes' => array()),
-    );
-    $items['wpmenu_left'] = array(
-        'render element' => 'element',
-    );
-    $items['menu__wpmenu_left'] = array(
-        'base hook' => 'menu',
-        'variables' => array('items' => array(), 'attributes' => array()),
-    );
+  $items['wpmenu_top'] = array(
+    'render element' => 'element',
+  );
+  $items['menu__wpmenu_top'] = array(
+    'base hook' => 'menu',
+    'variables' => array('items' => array(), 'attributes' => array()),
+  );
+  $items['wpmenu_left'] = array(
+    'render element' => 'element',
+  );
+  $items['menu__wpmenu_left'] = array(
+    'base hook' => 'menu',
+    'variables' => array('items' => array(), 'attributes' => array()),
+  );
 
-    return $items;
+  return $items;
 }
 
 /**
  * Implements hook_preprocess_HOOK() for HTML document templates.
  */
 function wpmenu_preprocess_html(&$variables) {
-    $variables['attributes']['class'][] = 'wp-admin wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 version-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
-    $variables['html_attributes']->addClass('wp-toolbar');
+  $variables['attributes']['class'][] = 'wp-admin wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 version-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
+  $variables['html_attributes']->addClass('wp-toolbar');
 }
 
 /**
@@ -73,21 +65,21 @@ function wpmenu_preprocess_html(&$variables) {
  * Add wpmenu to the top of the page automatically.
  */
 function wpmenu_page_top(array &$page_top) {
-    $page_top['00wpmenu_wpwrap_top']['#markup'] = '<div id="wpwrap">';
-    $page_top['wpmenu_left'] = [
-        '#theme' => 'wpmenu_left',
-        '#description' => 'left menu',
-    ];
-    $page_top['00wpmenu_wpcontent']['#markup'] = '<div id="wpcontent" class="layout-container">';
-    $page_top['wpmenu_top'] = [
-        '#theme' => 'wpmenu_top',
-        '#description' => 'top menu',
-        '#attached' => array(
-            'library' =>  array(
-                'wpmenu/wpmenu'
-            ),
-        ),
-    ];
+  $page_top['00wpmenu_wpwrap_top']['#markup'] = '<div id="wpwrap">';
+  $page_top['wpmenu_left'] = [
+    '#theme' => 'wpmenu_left',
+    '#description' => 'left menu',
+  ];
+  $page_top['00wpmenu_wpcontent']['#markup'] = '<div id="wpcontent" class="layout-container">';
+  $page_top['wpmenu_top'] = [
+    '#theme' => 'wpmenu_top',
+    '#description' => 'top menu',
+    '#attached' => array(
+      'library' =>  array(
+        'wpmenu/wpmenu'
+      ),
+    ),
+  ];
 }
 
 /**
@@ -96,8 +88,8 @@ function wpmenu_page_top(array &$page_top) {
  * Add wpmenu to the top of the page automatically.
  */
 function wpmenu_page_bottom(array &$page_bottom) {
-    $page_top['00wpmenu_wpwrap_close']['#markup'] = "</div>";
-    $page_top['00wpmenu_wpcontent_close']['#markup'] = "</div>";
+  $page_top['00wpmenu_wpwrap_close']['#markup'] = "</div>";
+  $page_top['00wpmenu_wpcontent_close']['#markup'] = "</div>";
 }
 /**
  * Prepares variables for administration toolbar templates.
@@ -110,18 +102,18 @@ function wpmenu_page_bottom(array &$page_bottom) {
  *     the tray. Properties used: #children, #attributes and #bar.
  */
 function template_preprocess_wpmenu_top(&$variables) {
-    global $base_path;
-    $current_path = \Drupal::service('path.current')->getPath();
-    $types = \Drupal\node\Entity\NodeType::loadMultiple();
-    $content_types = array_keys($types);
+  global $base_path;
+  $current_path = \Drupal::service('path.current')->getPath();
+  $types = \Drupal\node\Entity\NodeType::loadMultiple();
+  $content_types = array_keys($types);
 
-    $variables['base_path'] = $base_path;
-    $variables['module_path'] = drupal_get_path('module', 'wpmenu');
-    $variables['current_path'] = $current_path;
-    $variables['content_types'] = $content_types;
-    $variables['username'] = $variables['user']->getAccount()->name;
-    $variables['uid'] = $variables['user']->getAccount()->id();
-    $variables['gravatar'] = 'https://www.gravatar.com/avatar/' . strtolower(trim(md5($variables['user']->getEmail())));
+  $variables['base_path'] = $base_path;
+  $variables['module_path'] = drupal_get_path('module', 'wpmenu');
+  $variables['current_path'] = $current_path;
+  $variables['content_types'] = $content_types;
+  $variables['username'] = $variables['user']->getAccount()->name;
+  $variables['uid'] = $variables['user']->getAccount()->id();
+  $variables['gravatar'] = 'https://www.gravatar.com/avatar/' . strtolower(trim(md5($variables['user']->getEmail())));
 }
 
 /**
@@ -135,17 +127,15 @@ function template_preprocess_wpmenu_top(&$variables) {
  *     the tray. Properties used: #children, #attributes and #bar.
  */
 function template_preprocess_wpmenu_left(&$variables) {
-    global $base_path;
-    $current_path = \Drupal::service('path.current')->getPath();
+  global $base_path;
+  $current_path = \Drupal::service('path.current')->getPath();
 
-    $config = Yaml::parse(file_get_contents('/var/www/drupal8/modules/wpmenu/wpmenu-left.yml'));
-    $current_path = \Drupal::service('path.current')->getPath();
+  $config = Yaml::parse(file_get_contents('/var/www/drupal8/modules/wpmenu/wpmenu-left.yml'));
+  $current_path = \Drupal::service('path.current')->getPath();
 
-    $variables['base_path'] = $base_path;
-    $variables['current_path'] = $current_path;
-    $variables['menu'] = $config['menu'];
-//    print_r($variables);exit();
-
+  $variables['base_path'] = $base_path;
+  $variables['current_path'] = $current_path;
+  $variables['menu'] = $config['menu'];
 }
 
 /**
@@ -153,5 +143,5 @@ function template_preprocess_wpmenu_left(&$variables) {
  */
 function wpmenu_wpmenu() {
 
-    return $items;
+  return $items;
 }
