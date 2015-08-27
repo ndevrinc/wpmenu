@@ -1,4 +1,4 @@
-{#
+<?php
 /**
  * @file
  * Default theme implementation for the administrative toolbar.
@@ -21,7 +21,7 @@
  *
  * @ingroup themeable
  */
-#}
+?>
 <script type="text/javascript">
     document.body.className = document.body.className.replace('no-js','js');
 </script>
@@ -32,34 +32,36 @@
     <div id="adminmenuback"></div>
     <div id="adminmenuwrap">
         <ul id="adminmenu">
-            {% for link in menu %}
-                {% if link.separator %}
+          <?php $count = 0; ?>
+          <?php foreach ($menu as $link): ?>
+          <?php $count++; ?>
+            <?php if ($link['separator']): ?>
                     <li class="wp-not-current-submenu wp-menu-separator" aria-hidden="true"><div class="separator"></div></li>
-                {% endif %}
-                {% if link.url in current_path and loop.index > 1 %}
-                    {% set current_class = 'wp-has-current-submenu wp-menu-open' %}
-                {% elseif base_path ~ link.url == current_path or base_path ~ link.url ~ '/index' == current_path%}
-                    {% set current_class = 'wp-has-current-submenu wp-menu-open' %}
-                {% else %}
-                    {% set current_class = 'wp-not-current-submenu' %}
-                {% endif %}
+            <?php endif; ?>
+            <?php if (strstr($current_path, $link['url']) && $count > 1): ?>
+              <?php $current_class = 'wp-has-current-submenu wp-menu-open'; ?>
+            <?php elseif ($base_path . $link['url'] == $current_path || $base_path . $link['url'] . '/index' == $current_path): ?>
+              <?php $current_class = 'wp-has-current-submenu wp-menu-open'; ?>
+            <?php else: ?>
+              <?php $current_class = 'wp-not-current-submenu'; ?>
+            <?php endif; ?>
 
-                <li class="wp-has-submenu {{ current_class }} menu-top menu-icon-{{ link.icon }} menu-top-first" id="menu-{{ link.icon }}">
-                    <a href="{{  url_from_path(link.url) }}" class="wp-has-submenu {{ current_class }} menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
+                <li class="wp-has-submenu <?php print $current_class; ?> menu-top menu-icon-<?php print $link['icon']; ?> menu-top-first" id="menu-<?php print $link['icon']; ?>">
+                    <a href="{{  url_from_path(link.url) }}" class="wp-has-submenu <?php print $current_class; ?> menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
                         <div class="wp-menu-arrow"><div></div></div>
-                        <div class="wp-menu-image dashicons-before dashicons-{{  link.icon }}"><br /></div>
-                        <div class="wp-menu-name">{{ link.text }}</div>
+                        <div class="wp-menu-image dashicons-before dashicons-<?php print $link['icon']; ?>"><br /></div>
+                        <div class="wp-menu-name"><?php print $link['text']; ?></div>
                     </a>
-                    {% if link.children|length > 0 %}
+                  <?php if (count($link['children']) > 0): ?>
                         <ul class="wp-submenu wp-submenu-wrap">
                             <li class="wp-submenu-head">{{ link.text }}</li>
                             {% for sublink in link.children %}
                                 <li><a href="{{ url_from_path(sublink.url) }}">{{ sublink.text }}</a></li>
                             {% endfor %}
                         </ul>
-                    {% endif %}
+                  <?php endif; ?>
                 </li>
-            {% endfor %}
+            <?php endforeach; ?>
 
 
             <li id="collapse-menu" class="hide-if-no-js"><div id="collapse-button"><div></div></div><span>Collapse menu</span></li>

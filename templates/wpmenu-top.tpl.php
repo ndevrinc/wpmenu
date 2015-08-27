@@ -1,4 +1,4 @@
-{#
+<?php
 /**
  * @file
  * Default theme implementation for the top wpmenu.
@@ -21,14 +21,14 @@
  *
  * @ingroup themeable
  */
-#}
+?>
 <div id="wpadminbar" class="nojq nojs">
     <div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Toolbar" tabindex="0">
         <ul id="wp-admin-bar-root-default" class="ab-top-menu">
             <li id="wp-admin-bar-menu-toggle"><a class="ab-item"  href="#">
                     <span class="ab-icon"></span><span class="screen-reader-text">Menu</span></a>
             </li>
-            <li id="wp-admin-bar-wp-logo" class="menupop"><a class="ab-item"  aria-haspopup="true" href="https://ndevr.io/"><img src="{{ base_path ~ module_path }}/img/ndevr.svg" height="32" /><span class="screen-reader-text">About Ndevr</span></a>
+            <li id="wp-admin-bar-wp-logo" class="menupop"><a class="ab-item"  aria-haspopup="true" href="https://ndevr.io/"><img src="<?php print $base_path . $module_path; ?>/img/ndevr.svg" height="32" /><span class="screen-reader-text">About Ndevr</span></a>
                 <div class="ab-sub-wrapper">
                     <ul id="wp-admin-bar-wp-logo-default" class="ab-submenu">
                         <li id="wp-admin-bar-about"><a class="ab-item"  href="https://ndevr.io/">Ndevr</a></li>
@@ -41,37 +41,37 @@
                 </div>
             </li>
             <li id="wp-admin-bar-site-name" class="menupop">
-                <a class="ab-item"  aria-haspopup="true" href="{{ base_path }}">{{ site_name }}</a>
+                <a class="ab-item"  aria-haspopup="true" href="<?php print $base_path; ?>"><?php print $site_name; ?></a>
                 <div class="ab-sub-wrapper">
                     <ul id="wp-admin-bar-site-name-default" class="ab-submenu">
-                        <li id="wp-admin-bar-view-site"><a class="ab-item"  href="{{ base_path }}">Visit Site</a></li>
+                        <li id="wp-admin-bar-view-site"><a class="ab-item"  href="<?php print $base_path; ?>">Visit Site</a></li>
                     </ul>
                 </div>
             </li>
             <li id="wp-admin-bar-new-content" class="menupop">
-                <a class="ab-item"  aria-haspopup="true" href="{{ url_from_path('admin/content/add') }}"><span class="ab-icon"></span><span class="ab-label">New</span></a>
+                <a class="ab-item"  aria-haspopup="true" href="<?php print url('admin/content/add'); ?>"><span class="ab-icon"></span><span class="ab-label">New</span></a>
                 <div class="ab-sub-wrapper">
                     <ul id="wp-admin-bar-new-content-default" class="ab-submenu">
-{% for content_type in content_types %}
-                        <li><a class="ab-item" href="{{ url_from_path('node/add/' ~ content_type) }}">{{ content_type }}</a></li>
-{% endfor %}
-                        <li id="wp-admin-bar-new-user"><a class="ab-item"  href="{{ url_from_path('admin/people/create') }}">user</a>		</li>
+<?php foreach ($content_types as $content_type): ?>
+                        <li><a class="ab-item" href="<?php print url('node/add/' . $content_type); ?>"><?php print $content_type; ?></a></li>
+<?php endforeach ?>
+                        <li id="wp-admin-bar-new-user"><a class="ab-item"  href="<?php print url('admin/people/create'); ?>">user</a>		</li>
                     </ul>
                 </div>
             </li>
         </ul>
         <ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">
             <li id="wp-admin-bar-my-account" class="menupop with-avatar">
-                <a class="ab-item"  aria-haspopup="true" href="{{ url_from_path('user/' ~ uid) }}">Howdy, {{ username }}<img alt='' src='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=26&#038;d=mm&#038;r=g' srcset='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=52&amp;d=mm&amp;r=g 2x' class='avatar avatar-26 photo' height='26' width='26' /></a>
+                <a class="ab-item"  aria-haspopup="true" href="<?php print url('user/' . $uid); ?>">Howdy, <?php print $username; ?><img alt='' src='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=26&#038;d=mm&#038;r=g' srcset='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=52&amp;d=mm&amp;r=g 2x' class='avatar avatar-26 photo' height='26' width='26' /></a>
                 <div class="ab-sub-wrapper">
                     <ul id="wp-admin-bar-user-actions" class="ab-submenu">
-                        <li id="wp-admin-bar-user-info"><a class="ab-item" tabindex="-1" href="{{ url_from_path('user/' ~ uid ~ '/edit') }}"><img alt='' src='{{ gravatar }}?s=64&#038;d=mm&#038;r=g' srcset='{{ gravatar }}?s=128&amp;d=mm&amp;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' /><span class='display-name'>{{ username }}</span><span class='username'>{{ username }}</span></a></li>
-                        <li id="wp-admin-bar-edit-profile"><a class="ab-item"  href="{{ url_from_path('user/' ~ uid ~ '/edit') }}">Edit My Profile</a></li>
-                        <li id="wp-admin-bar-logout"><a class="ab-item"  href="{{ url_from_path('user/logout') }}">Log Out</a></li>
+                        <li id="wp-admin-bar-user-info"><a class="ab-item" tabindex="-1" href="<?php print url('user/' . $uid . '/edit'); ?>"><img alt='' src='<?php print $gravatar; ?>?s=64&#038;d=mm&#038;r=g' srcset='<?php print $gravatar; ?>?s=128&amp;d=mm&amp;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' /><span class='display-name'><?php print $username; ?></span><span class='username'><?php print $username; ?></span></a></li>
+                        <li id="wp-admin-bar-edit-profile"><a class="ab-item"  href="<?php print url('user/' . $uid . '/edit'); ?>">Edit My Profile</a></li>
+                        <li id="wp-admin-bar-logout"><a class="ab-item"  href="<?php print url('user/logout'); ?>">Log Out</a></li>
                     </ul>
                 </div>
             </li>
         </ul>
     </div>
-    <a class="screen-reader-shortcut" href="{{ url_from_path('user/logout') }}">Log Out</a>
+    <a class="screen-reader-shortcut" href="<?php print url('user/logout'); ?>">Log Out</a>
 </div>
