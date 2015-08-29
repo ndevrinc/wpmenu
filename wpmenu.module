@@ -30,7 +30,7 @@ function wpmenu_preprocess_html(&$variables) {
   $variables['classes_array'][] = 'wp-admin wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 version-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
   $variables['rdf_namespaces'] = ' class="wp-toolbar"';
 
-  $variables['page']['page_top'][] = array('foo' => array('#markup' => '<div id="wpwrap">' . theme('wpmenu_left') . '<div id="wpcontent" class="layout-container">' . theme('wpmenu_top') . $variables['page']['page_top']));
+  $variables['page']['page_top'][] = array('foo' => array('#markup' => '<div id="wpwrap">' . theme('wpmenu_left') . '<div id="wpcontent" class="layout-container">' . theme('wpmenu_top')));
   $variables['page']['page_bottom'][] = array('foo' => array('#markup' => '</div></div>'));
 }
 
@@ -73,12 +73,9 @@ function template_preprocess_wpmenu_top(&$variables) {
 function template_preprocess_wpmenu_left(&$variables) {
   global $base_path;
   $current_path = current_path();
-  $module_path = drupal_get_path('module', 'wpmenu');
-//  $config = Yaml::parse(file_get_contents($module_path . '/wpmenu-left.yml'));
-//
+
   $variables['base_path'] = $base_path;
   $variables['current_path'] = $current_path;
-//  $variables['menu'] = $config['menu'];
 
   $variables['menu'] = array(
     'menu' => array(
@@ -87,29 +84,101 @@ function template_preprocess_wpmenu_left(&$variables) {
       'text' => 'Dasboard',
       'icon' => 'dashboard',
       'children' => array(
-          array(
-            'url' => '/admin',
-            'text' => 'Index'
-          ),
-          array(
-            'url' => 'update.php',
-            'text' => 'Update'
-          )
+        array(
+          'url' => '/admin',
+          'text' => 'Index'
+        ),
+        array(
+          'url' => 'update.php',
+          'text' => 'Update'
         )
-      ),
-    array(
-    'separator' => TRUE,
-    'url' => 'admin/content',
-    'text' => 'Content',
-    'icon' => 'admin-page',
-    'children' => array(
-      array(
-        'url' => '/admin/content/add',
-        'text' => 'Add'
       )
+    ),
+    array(
+      'separator' => TRUE,
+      'url' => 'admin/content',
+      'text' => 'Content',
+      'icon' => 'admin-page',
+      'children' => array(
+        array(
+          'url' => '/admin/content/add',
+          'text' => 'Add'
+        )
+      )
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/structure',
+      'text' => 'Structure',
+      'icon' => 'admin-structure',
+      'children' => array(
+        array(
+          'url' => '/admin/structure/block',
+          'text' => 'Blocks'
+        ),
+        array(
+          'url' => '/admin/structure/types',
+          'text' => 'Content Types'
+        ),
+        array(
+          'url' => '/admin/structure/taxonomy',
+          'text' => 'Taxonomy'
+        )
+      )
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/appearance',
+      'text' => 'Appearance',
+      'icon' => 'admin-appearance',
+      'children' => array(
+        array(
+          'url' => '/admin/appearance/settings',
+          'text' => 'Settings'
+        )
+      )
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/modules',
+      'text' => 'Modules',
+      'icon' => 'admin-plugins',
+      'children' => array()
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/config',
+      'text' => 'Configuration',
+      'icon' => 'admin-settings',
+      'children' => array(
+        array(
+          'url' => '/admin/config/development/performance',
+          'text' => 'Performance'
+        )
+      )
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/people',
+      'text' => 'People',
+      'icon' => 'admin-users',
+      'children' => array()
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/reports',
+      'text' => 'Reports',
+      'icon' => 'admin-reports',
+      'children' => array()
+    ),
+    array(
+      'separator' => FALSE,
+      'url' => 'admin/help',
+      'text' => 'Help',
+      'icon' => 'admin-help',
+      'children' => array()
     )
-  )
-    );
+  );
 }
 
 /**
@@ -120,6 +189,7 @@ function wpmenu_js_alter(&$js) {
   $js = drupal_add_js('/sites/all/libraries/wordpress/wp-includes/js/admin-bar.min.js');
   $js = drupal_add_js('/sites/all/libraries/wordpress/wp-includes/js/utils.min.js');
 }
+
 /**
  * Implements hook_css_alter().
  */

@@ -47,17 +47,17 @@
             <?php endif; ?>
 
                 <li class="wp-has-submenu <?php print $current_class; ?> menu-top menu-icon-<?php print $link['icon']; ?> menu-top-first" id="menu-<?php print $link['icon']; ?>">
-                    <a href="{{  url_from_path(link.url) }}" class="wp-has-submenu <?php print $current_class; ?> menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
+                    <a href="<?php print url($link['url']); ?>" class="wp-has-submenu <?php print $current_class; ?> menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
                         <div class="wp-menu-arrow"><div></div></div>
                         <div class="wp-menu-image dashicons-before dashicons-<?php print $link['icon']; ?>"><br /></div>
                         <div class="wp-menu-name"><?php print $link['text']; ?></div>
                     </a>
                   <?php if (count($link['children']) > 0): ?>
                         <ul class="wp-submenu wp-submenu-wrap">
-                            <li class="wp-submenu-head">{{ link.text }}</li>
-                            {% for sublink in link.children %}
-                                <li><a href="{{ url_from_path(sublink.url) }}">{{ sublink.text }}</a></li>
-                            {% endfor %}
+                            <li class="wp-submenu-head"><?php print $link['text']; ?></li>
+                          <?php foreach ($link['children'] as $sublink): ?>
+                                <li><a href="<?php print url($sublink['url']); ?>"><?php print $sublink['text']; ?></a></li>
+                          <?php endforeach ?>
                         </ul>
                   <?php endif; ?>
                 </li>
