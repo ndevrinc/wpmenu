@@ -1,0 +1,7 @@
+name = WordPress Menu
+description = Clones the WordPress Admin Menu for your Drupal site.
+backdrop = 1.x
+package = Administration
+core = 7.x
+dependencies[] = user
+stylesheets[all][] = css/wpmenu.css
