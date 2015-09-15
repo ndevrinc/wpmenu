@@ -38,8 +38,15 @@ function wpmenu_theme($existing, $type, $theme, $path) {
  * Adds necessary classes to the body and html tags
  */
 function wpmenu_preprocess_html(&$variables) {
-  $variables['attributes']['class'][] = 'wp-admin wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 veriten-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
-  $variables['html_attributes']->addClass('wp-toolbar');
+  $account = \Drupal::currentUser();
+  $is_admin = \Drupal::service('router.admin_context')->isAdminRoute();
+  if ($account->id() > 0) {
+    if ($is_admin) {
+      $variables['attributes']['class'][] = 'wp-admin';
+    }
+    $variables['attributes']['class'][] = 'wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 veriten-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
+    $variables['html_attributes']->addClass('wp-toolbar');
+  }
 }
 
 /**
@@ -48,21 +55,16 @@ function wpmenu_preprocess_html(&$variables) {
  * Add wpmenu to the top of the page automatically.
  */
 function wpmenu_page_top(array &$page_top) {
-  $page_top['00wpmenu_wpwrap_top']['#markup'] = '<div id="wpwrap">';
-  $page_top['wpmenu_left'] = [
-    '#theme' => 'wpmenu_left',
-    '#description' => 'left menu',
-  ];
-  $page_top['00wpmenu_wpcontent']['#markup'] = '<div id="wpcontent" class="layout-container">';
-  $page_top['wpmenu_top'] = [
-    '#theme' => 'wpmenu_top',
-    '#description' => 'top menu',
-    '#attached' => array(
-      'library' =>  array(
-        'wpmenu/wpmenu'
-      ),
-    ),
-  ];
+  $account = \Drupal::currentUser();
+  $is_admin = \Drupal::service('router.admin_context')->isAdminRoute();
+  if ($account->id() > 0) {
+    $page_top['00wpmenu_wpwrap_top']['#markup'] = '<div id="wpwrap">';
+    if ($is_admin) {
+      $page_top['wpmenu_left'] = ['#theme' => 'wpmenu_left', '#description' => 'left menu',];
+      $page_top['00wpmenu_wpcontent']['#markup'] = '<div id="wpcontent" class="layout-container">';
+    }
+    $page_top['wpmenu_top'] = ['#theme' => 'wpmenu_top', '#description' => 'top menu', '#attached' => array('library' => array('wpmenu/wpmenu'),),];
+  }
 }
 
 /**
@@ -71,8 +73,14 @@ function wpmenu_page_top(array &$page_top) {
  * Add wpmenu to the top of the page automatically.
  */
 function wpmenu_page_bottom(array &$page_bottom) {
-  $page_top['00wpmenu_wpwrap_close']['#markup'] = "</div>";
-  $page_top['00wpmenu_wpcontent_close']['#markup'] = "</div>";
+  $account = \Drupal::currentUser();
+  $is_admin = \Drupal::service('router.admin_context')->isAdminRoute();
+  if ($account->id() > 0) {
+    if ($is_admin) {
+      $page_bottom['00wpmenu_wpwrap_close']['#markup'] = "</div>";
+    }
+    $page_bottom['00wpmenu_wpcontent_close']['#markup'] = "</div>";
+  }
 }
 /**
  * Prepares variables for administration toolbar templates.
@@ -84,11 +92,15 @@ function wpmenu_page_bottom(array &$page_bottom) {
  */
 function template_preprocess_wpmenu_top(&$variables) {
   global $base_path;
+  $site_name = \Drupal::configFactory()->getEditable('system.site')->get('name');
+  $is_admin = \Drupal::service('router.admin_context')->isAdminRoute();
   $current_path = \Drupal::service('path.current')->getPath();
   $types = \Drupal\node\Entity\NodeType::loadMultiple();
   $content_types = array_keys($types);
 
+  $variables['is_admin'] = $is_admin;
   $variables['base_path'] = $base_path;
+  $variables['site_name'] = $site_name;
   $variables['module_path'] = drupal_get_path('module', 'wpmenu');
   $variables['current_path'] = $current_path;
   $variables['content_types'] = $content_types;
@@ -134,12 +146,11 @@ function template_preprocess_wpmenu_left(&$variables) {
                 $generator = Drupal::urlGenerator();
                 $path = $generator->generate($url->getRouteName());
               }
-              $menu[$index]['children']['path'] = $path;
-            } else {
-              $menu[$index]['children'][$cindex][$ckey] = $cvalue;
+              $cvalue = $path;
             }
-            $cindex++;
+            $menu[$index]['children'][$cindex][$ckey] = $cvalue;
           }
+          $cindex++;
         }
       } else {
         if ($key == 'url') {
@@ -149,16 +160,15 @@ function template_preprocess_wpmenu_left(&$variables) {
             $generator = Drupal::urlGenerator();
             $path = $generator->generate($url->getRouteName());
           }
-          $menu[$index]['path'] = $path;
-        } else {
-          $menu[$index][$key] = $value;
+          $value = $path;
         }
+        $menu[$index][$key] = $value;
       }
-
     }
   }
 
   $variables['base_path'] = $base_path;
   $variables['current_path'] = $current_path;
+  $variables['uid'] = $variables['user']->getAccount()->id();
   $variables['menu'] = $menu;
 }

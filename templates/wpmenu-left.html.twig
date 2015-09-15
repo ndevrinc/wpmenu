@@ -26,6 +26,7 @@
     document.body.className = document.body.className.replace('no-js','js');
 </script>
 
+{% if uid > 0 %}
 <div id="adminmenumain" role="navigation" aria-label="Main menu">
     <a href="#wpbody-content" class="screen-reader-shortcut">Skip to main content</a>
     <a href="#wp-toolbar" class="screen-reader-shortcut">Skip to toolbar</a>
@@ -45,7 +46,7 @@
                 {% endif %}
 
                 <li class="wp-has-submenu {{ current_class }} menu-top menu-icon-{{ link.icon }} menu-top-first" id="menu-{{ link.icon }}">
-                    <a href="{{ link.path }}" class="wp-has-submenu {{ current_class }} menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
+                    <a href="{{ link.url }}" class="wp-has-submenu {{ current_class }} menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
                         <div class="wp-menu-arrow"><div></div></div>
                         <div class="wp-menu-image dashicons-before dashicons-{{  link.icon }}"><br /></div>
                         <div class="wp-menu-name">{{ link.text }}</div>
@@ -54,16 +55,15 @@
                         <ul class="wp-submenu wp-submenu-wrap">
                             <li class="wp-submenu-head">{{ link.text }}</li>
                             {% for sublink in link.children %}
-                                <li><a href="{{ sublink.path }}">{{ sublink.text }}</a></li>
+                                <li><a href="{{ sublink.url }}">{{ sublink.text }}</a></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
                 </li>
             {% endfor %}
 
-
             <li id="collapse-menu" class="hide-if-no-js"><div id="collapse-button"><div></div></div><span>Collapse menu</span></li>
-
         </ul>
     </div>
 </div>
+{% endif %}
