@@ -1,0 +1,69 @@
+{#
+/**
+ * @file
+ * Default theme implementation for the administrative toolbar.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the wrapper.
+ * - toolbar_attributes: HTML attributes to apply to the toolbar.
+ * - toolbar_heading: The heading or label for the toolbar.
+ * - tabs: List of tabs for the toolbar.
+ *   - attributes: HTML attributes for the tab container.
+ *   - link: Link or button for the menu tab.
+ * - trays: Toolbar tray list, each associated with a tab. Each tray in trays
+ *   contains:
+ *   - attributes: HTML attributes to apply to the tray.
+ *   - label: The tray's label.
+ *   - links: The tray menu links.
+ * - remainder: Any non-tray, non-tab elements left to be rendered.
+ *
+ * @see template_preprocess_toolbar()
+ *
+ * @ingroup themeable
+ */
+#}
+<script type="text/javascript">
+    document.body.className = document.body.className.replace('no-js','js');
+</script>
+
+{% if uid > 0 %}
+<div id="adminmenumain" role="navigation" aria-label="Main menu">
+    <a href="#wpbody-content" class="screen-reader-shortcut">Skip to main content</a>
+    <a href="#wp-toolbar" class="screen-reader-shortcut">Skip to toolbar</a>
+    <div id="adminmenuback"></div>
+    <div id="adminmenuwrap">
+        <ul id="adminmenu">
+            {% for link in menu %}
+                {% if link.separator %}
+                    <li class="wp-not-current-submenu wp-menu-separator" aria-hidden="true"><div class="separator"></div></li>
+                {% endif %}
+                {% if link.url in current_path and loop.index > 1 %}
+                    {% set current_class = 'wp-has-current-submenu wp-menu-open' %}
+                {% elseif base_path ~ link.url == current_path or base_path ~ link.url ~ '/index' == current_path%}
+                    {% set current_class = 'wp-has-current-submenu wp-menu-open' %}
+                {% else %}
+                    {% set current_class = 'wp-not-current-submenu' %}
+                {% endif %}
+
+                <li class="wp-has-submenu {{ current_class }} menu-top menu-icon-{{ link.icon }} menu-top-first" id="menu-{{ link.icon }}">
+                    <a href="{{ link.url }}" class="wp-has-submenu {{ current_class }} menu-top menu-icon-appearance menu-top-first" aria-haspopup="true">
+                        <div class="wp-menu-arrow"><div></div></div>
+                        <div class="wp-menu-image dashicons-before dashicons-{{  link.icon }}"><br /></div>
+                        <div class="wp-menu-name">{{ link.text }}</div>
+                    </a>
+                    {% if link.children|length > 0 %}
+                        <ul class="wp-submenu wp-submenu-wrap">
+                            <li class="wp-submenu-head">{{ link.text }}</li>
+                            {% for sublink in link.children %}
+                                <li><a href="{{ sublink.url }}">{{ sublink.text }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+
+            <li id="collapse-menu" class="hide-if-no-js"><div id="collapse-button"><div></div></div><span>Collapse menu</span></li>
+        </ul>
+    </div>
+</div>
+{% endif %}
