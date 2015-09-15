@@ -26,24 +26,25 @@ function wpmenu_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess_HOOK() for HTML document templates.
  */
-function wpmenu_preprocess_html(&$variables) {
+function wpmenu_preprocess_page(&$variables) {
   global $user;
   $current_path = current_path();
   $is_admin = path_is_admin($current_path);
+//print_r($variables);exit();
   if ($user->uid > 0) {
     if ($is_admin) {
-      $variables['classes_array'][] = 'wp-admin';
+      $variables['classes'][] = 'wp-admin';
     }
-    $variables['classes_array'][] = 'wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 version-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
-    $variables['rdf_namespaces'] = ' class="wp-toolbar"';
+    $variables['classes'][] = 'wp-core-ui no-js index-php auto-fold admin-bar branch-4-2 version-4-2-4 admin-color-fresh locale-en-us no-customize-support no-svg';
+    $variables['html_attributes']['class'] = 'wp-toolbar';
 
     if ($is_admin) {
-      $variables['page']['page_top'][] = array('foo' => array('#markup' => '<div id="wpwrap">' . theme('wpmenu_left') . '<div id="wpcontent" class="layout-container">' . theme('wpmenu_top')));
-      $variables['page']['page_bottom'][] = array('foo' => array('#markup' => '</div></div>'));
+      $variables['page'] = '<div id="wpwrap">' . theme('wpmenu_left') . '<div id="wpcontent" class="layout-container">' . theme('wpmenu_top') . $variables['page'];
+      $variables['page'] .= '</div></div>';
     }
     else {
-      $variables['page']['page_top'][] = array('foo' => array('#markup' => '<div id="wpwrap">' . theme('wpmenu_top')));
-      $variables['page']['page_bottom'][] = array('foo' => array('#markup' => '</div>'));
+      $variables['page'] = '<div id="wpwrap">' . theme('wpmenu_top') . $variables['page'];
+      $variables['page'] .= '</div>';
     }
   }
 }
@@ -64,7 +65,7 @@ function template_preprocess_wpmenu_top(&$variables) {
   $content_types = array_keys($types);
 
   $variables['is_admin'] = $is_admin;
-  $variables['site_name'] = variable_get('site_name');
+  $variables['site_name'] = config_get('system.core', 'site_name');
   $variables['base_path'] = $base_path;
   $variables['module_path'] = drupal_get_path('module', 'wpmenu');
   $variables['current_path'] = $current_path;
@@ -201,9 +202,9 @@ function template_preprocess_wpmenu_left(&$variables) {
 function wpmenu_js_alter(&$js) {
   global $user;
   if ($user->uid > 0) {
-    $js = drupal_add_js('/sites/all/libraries/wordpress/wp-admin/js/common.min.js');
-    $js = drupal_add_js('/sites/all/libraries/wordpress/wp-includes/js/admin-bar.min.js');
-    $js = drupal_add_js('/sites/all/libraries/wordpress/wp-includes/js/utils.min.js');
+    $js = drupal_add_js('/libraries/wordpress/wp-admin/js/common.min.js');
+    $js = drupal_add_js('/libraries/wordpress/wp-includes/js/admin-bar.min.js');
+    $js = drupal_add_js('/libraries/wordpress/wp-includes/js/utils.min.js');
   }
 }
 
@@ -213,12 +214,12 @@ function wpmenu_js_alter(&$js) {
 function wpmenu_css_alter(&$css) {
   global $user;
   if ($user->uid > 0) {
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-includes/css/dashicons.min.css', array('type' => 'external', 'weight' => 0));
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-includes/css/admin-bar.min.css', array('type' => 'external', 'weight' => 0));
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-admin/css/wp-admin.min.css', array('type' => 'external', 'weight' => 0));
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-includes/css/buttons.min.css', array('type' => 'external', 'weight' => 0));
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-admin/css/common.css', array('type' => 'external', 'weight' => 0));
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-admin/css/forms.css', array('type' => 'external', 'weight' => 0));
-    $css = drupal_add_css('/sites/all/libraries/wordpress/wp-admin/css/admin-menu.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-includes/css/dashicons.min.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-includes/css/admin-bar.min.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-admin/css/wp-admin.min.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-includes/css/buttons.min.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-admin/css/common.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-admin/css/forms.css', array('type' => 'external', 'weight' => 0));
+    $css = drupal_add_css('/libraries/wordpress/wp-admin/css/admin-menu.css', array('type' => 'external', 'weight' => 0));
   }
 }
