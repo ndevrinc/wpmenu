@@ -64,6 +64,14 @@ function template_preprocess_wpmenu_top(&$variables) {
   $types = node_type_get_types();
   $content_types = array_keys($types);
 
+  // Adds core search form with correct styling
+  $search_form = backdrop_get_form('search_block_form');
+  $search_form['#attributes']['id'][] = 'adminbarsearch';
+  $search_form['search_block_form']['#attributes']['class'][] = 'adminbar-input';
+  unset($search_form['actions']['submit']);
+  $variables['form'] = backdrop_render($search_form);
+  // End search form
+
   $variables['is_admin'] = $is_admin;
   $variables['site_name'] = config_get('system.core', 'site_name');
   $variables['base_path'] = $base_path;
