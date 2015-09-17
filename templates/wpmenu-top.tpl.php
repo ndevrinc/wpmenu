@@ -67,6 +67,13 @@
       </li>
     </ul>
     <ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">
+
+      <li id="wp-admin-bar-search" class="admin-bar-search       ">
+        <div class="ab-item ab-empty-item" tabindex="-1">
+          <?php print $form; ?>
+        </div>
+      </li>
+
       <li id="wp-admin-bar-my-account" class="menupop with-avatar">
         <a class="ab-item"  aria-haspopup="true" href="<?php print url('user/' . $uid); ?>">Howdy, <?php print $username; ?><img alt='' src='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=26&#038;d=mm&#038;r=g' srcset='https://1.gravatar.com/avatar/d348f0224b906215c12d0e7e0d8f086c?s=52&amp;d=mm&amp;r=g 2x' class='avatar avatar-26 photo' height='26' width='26' /></a>
         <div class="ab-sub-wrapper">
