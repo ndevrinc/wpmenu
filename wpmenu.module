@@ -63,6 +63,19 @@ function template_preprocess_wpmenu_top(&$variables) {
   $types = node_type_get_types();
   $content_types = array_keys($types);
 
+  // Adds core search form with correct styling
+  if (module_exists('search')) {
+    $search_form = drupal_get_form('search_block_form');
+    $search_form['#attributes']['id'][] = 'adminbarsearch';
+    $search_form['search_block_form']['#attributes']['class'][] = 'adminbar-input';
+    unset($search_form['actions']['submit']);
+    $variables['form'] = drupal_render($search_form);
+  }
+  else{
+    $variables['form'] = '';
+  }
+  // End search form
+
   $variables['is_admin'] = $is_admin;
   $variables['site_name'] = variable_get('site_name');
   $variables['base_path'] = $base_path;
